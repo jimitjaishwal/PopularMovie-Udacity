@@ -1,0 +1,36 @@
+<resources>
+    <!-- Default screen margins, per the Android Design guidelines. -->
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="material_appbar_height">320dp</dimen>
+    <dimen name="toolbar_height">80dp</dimen>
+    <dimen name="appbar_elevation">4dp</dimen>
+    <dimen name="material_small_padding">10dp</dimen>
+    <dimen name="movie_title_text_size">18sp</dimen>
+    <dimen name="movie_category_top_padding">5dp</dimen>
+    <dimen name="movie_category_text_size">14sp</dimen>
+    <dimen name="icon_favourite_padding">5dp</dimen>
+    <dimen name="card_view_minimum_elevation">4dp</dimen>
+    <dimen name="material_card_view_layout_margin">4dp</dimen>
+    <dimen name="movie_poster_margin">16dp</dimen>
+    <dimen name="minimum_text_size">18sp</dimen>
+    <dimen name="max_width">500dp</dimen>
+    <dimen name="top_margin">16dp</dimen>
+    <dimen name="overview_padding_left">16dp</dimen>
+    <dimen name="overview_padding_right">16dp</dimen>
+    <dimen name="overview_text_size">16sp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="movie_title_bg_padding_left">16dp</dimen>
+    <dimen name="movie_title_bg_padding_right">16dp</dimen>
+    <dimen name="margin_top">32dp</dimen>
+    <dimen name="movie_title_bg_padding_bottom">10dp</dimen>
+    <dimen name="movie_title_bg_padding_top">10dp</dimen>
+    <dimen name="over_view_margin_bottom">10dp</dimen>
+    <integer name="grid_column_count">2</integer>
+    <integer name="review_column_count">1</integer>
+    <dimen name="fab_size">56dp</dimen>
+    <dimen name="poster_left_margin">16dp</dimen>
+    <dimen name="minimum_padding">16dp</dimen>
+    <dimen name="release_date_textSize">16sp</dimen>
+
+</resources>

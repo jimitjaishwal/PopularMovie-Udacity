@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/card_view"
+    android:layout_margin="@dimen/material_card_view_layout_margin"
+    app:cardElevation="@dimen/card_view_minimum_elevation">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:adjustViewBounds="true"
+            android:id="@+id/movie_poster"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@null" />
+
+        <LinearLayout
+            android:layout_gravity="bottom"
+            android:baselineAligned="false"
+            android:id="@+id/content_backGround"
+            android:layout_width="match_parent"
+            android:layout_height="68dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:gravity="center"
+                android:paddingStart="16dp"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:text="Jurasic Word"
+                    android:fontFamily="sans-serif-medium"
+                    android:id="@+id/movie_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/lightWhite"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:text="Action, Horror, Animation"
+                    android:fontFamily="sans-serif-light"
+                    android:id="@+id/movie_category"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/movie_category_text_size" />
+            </LinearLayout>
+
+           <FrameLayout
+               android:layout_margin="16dp"
+               android:layout_gravity="center"
+               android:layout_width="32dp"
+               android:layout_height="32dp">
+
+               <ImageView
+                   android:background="@android:color/transparent"
+                   android:layout_gravity="center"
+                   android:id="@+id/favourite_movie"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:contentDescription="@null"
+                   android:src="@drawable/ic_favorite_black_24dp" />
+           </FrameLayout>
+        </LinearLayout>
+    </FrameLayout>
+</android.support.v7.widget.CardView>
