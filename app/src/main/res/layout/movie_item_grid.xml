@@ -16,7 +16,7 @@
             android:adjustViewBounds="true"
             android:id="@+id/movie_poster"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:contentDescription="@null" />
 
         <LinearLayout

@@ -11,11 +11,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.android.jimitjaishwal.moviesplex.MovieUtility.TypefaceSpan;
+import com.android.jimitjaishwal.moviesplex.data.MovieContract;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView appName;
-
+    // final App Repo
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         appName.setText(s);
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        this.getContentResolver().delete(MovieContract.PopularMovieEntry.BASE_URI, null, null);
+        this.getContentResolver().delete(MovieContract.MovieEntry.BASE_URI, null, null);
     }
 
     @Override

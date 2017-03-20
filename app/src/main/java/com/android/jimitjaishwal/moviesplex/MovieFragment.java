@@ -212,8 +212,7 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
     @Override
     public void onDestroy() {
         super.onDestroy();
-        getActivity().getContentResolver().delete(MovieContract.PopularMovieEntry.BASE_URI, null, null);
-        getActivity().getContentResolver().delete(MovieContract.MovieEntry.BASE_URI, null, null);
+
         scrollListener.resetState();
     }
 
