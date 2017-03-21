@@ -87,12 +87,12 @@ public class DetailActivity extends AppCompatActivity implements LoaderManager.L
                     mProjection = MovieProjection.Projection.FAVOURITE_MOVIE_LIST_PROJECTION;
                     break;
 
-                case "popularity.desc":
+                case "popular":
                     mUri = MovieContract.PopularMovieEntry.BASE_URI;
                     mProjection = MovieProjection.Projection.MOVIE_LIST_PROJECTION;
                     break;
 
-                case "vote_average.desc":
+                case "top_rated":
                     mUri = MovieContract.MovieEntry.BASE_URI;
                     mProjection = MovieProjection.Projection.POPULAR_MOVIE_LIST_PROJECTION;
                     break;

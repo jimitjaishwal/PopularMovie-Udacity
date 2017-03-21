@@ -38,11 +38,13 @@ public class NetworkService {
     }
 
     public static ArrayList<MovieModel> getMovieList(String sortBy, String api_key, String page) throws IOException {
-        Call<MovieResponse> call = mMovieService.getMovieList("popular", api_key, page);
+        Call<MovieResponse> call = mMovieService.getMovieList(sortBy, api_key, page);
         Log.e(TAG, "Log Url " + call.request().url());
         Response<MovieResponse> response = call.execute();
         MovieResponse movieResponse = response.body();
-        return movieResponse.getResults();
+        ArrayList<MovieModel> movieList = new ArrayList<>();
+        movieList.addAll(movieResponse.getResults());
+        return movieList;
     }
 
     public static ArrayList<TrailerModel> getTrailerList(String movieId, String api_key) throws IOException {

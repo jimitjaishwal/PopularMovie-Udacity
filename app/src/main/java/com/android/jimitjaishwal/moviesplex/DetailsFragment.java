@@ -183,6 +183,10 @@ public class DetailsFragment extends Fragment implements TrailerAdapter.OnMovieS
         String url = "http://www.youtube.com/watch?v=" + videoUrl;
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         startActivity(intent);
+
+        if (intent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -196,12 +200,12 @@ public class DetailsFragment extends Fragment implements TrailerAdapter.OnMovieS
                     detailUri = MovieContract.FavouriteMovieEntry.buildFavouriteMovieDetailUri(mItemId);
                     mProjection = MovieProjection.Projection.FAVOURITE_MOVIE_DETAILS_PROJECTION;
                     break;
-                case "popularity.desc":
+                case "popular":
                     detailUri = MovieContract.PopularMovieEntry.buildPopularMovieDetailUri(mItemId);
                     mProjection = MovieProjection.Projection.POPULAR_MOVIE_DETAIL_PROJECTION;
                     break;
 
-                case "vote_average.desc":
+                case "top_rated":
                     detailUri = MovieContract.MovieEntry.buildMovieDetailUri(mItemId);
                     mProjection = MovieProjection.Projection.MOVIE_DETAILS_PROJECTION;
                     break;

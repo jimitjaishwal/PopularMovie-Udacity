@@ -37,17 +37,21 @@ public class FetchMovieTask extends AsyncTask<String, Integer, Void> {
         final String page = params[1];
 
         try {
-            movieList.addAll(NetworkService.getMovieList(sort_by, BuildConfig.THE_MOVIE_DB_API_TOKEN, page));
+            if (sort_by.equals("popular")) {
+                movieList.addAll(NetworkService.getMovieList(sort_by, BuildConfig.THE_MOVIE_DB_API_TOKEN, page));
 
-            for (MovieModel movie : movieList) {
-                movieDetailList.add(NetworkService.getMovieDetails(Long.toString(movie.getId()), BuildConfig.THE_MOVIE_DB_API_TOKEN));
-            }
-
-            if (sort_by.equals("popularity.desc")) {
-
+                for (MovieModel movie : movieList) {
+                    movieDetailList.add(NetworkService.getMovieDetails(Long.toString(movie.getId()), BuildConfig.THE_MOVIE_DB_API_TOKEN));
+                }
                 NetworkUtils.insertPopularMovies(movieDetailList, contentValues, mContext, LOG_TAG);
 
-            } else if (sort_by.equals("vote_average.desc")) {
+            } else if (sort_by.equals("top_rated")) {
+
+                movieList.addAll(NetworkService.getMovieList(sort_by, BuildConfig.THE_MOVIE_DB_API_TOKEN, page));
+
+                for (MovieModel movie : movieList) {
+                    movieDetailList.add(NetworkService.getMovieDetails(Long.toString(movie.getId()), BuildConfig.THE_MOVIE_DB_API_TOKEN));
+                }
 
                 NetworkUtils.insertVoteAverageMovies(movieDetailList, contentValues, mContext, LOG_TAG);
             }

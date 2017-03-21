@@ -22,7 +22,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.jimitjaishwal.moviesplex.MovieUtility.Utility;
-import com.android.jimitjaishwal.moviesplex.adapter.EndlessRecyclerViewScrollListener;
 import com.android.jimitjaishwal.moviesplex.adapter.MovieAdapter;
 import com.android.jimitjaishwal.moviesplex.data.MovieContract;
 import com.android.jimitjaishwal.moviesplex.data.MovieProjection;
@@ -57,9 +56,6 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
     SwipeRefreshLayout mSwipeToRefresh;
 
     private String sort_by;
-    private EndlessRecyclerViewScrollListener scrollListener;
-
-    private boolean isLoadFirstTime = false;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,24 +67,6 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
         super.onSaveInstanceState(outState);
         mGridState = layoutManager.onSaveInstanceState();
         outState.putParcelable(selectedItemPosition, mGridState);
-    }
-
-    public void loadMore(String page) {
-// 2. Notify the adapter of the update
-// 3. Reset endless scroll listener when performing a new search
-        // mMovieAdapter.removeFooter();
-        FetchMovieTask movieTask = new FetchMovieTask(getActivity());
-        movieTask.execute(sort_by, page);
-        //getLoaderManager().restartLoader(LOADER_ID, null, this).forceLoad();
-        // Handler handler = new Handler();
-        // mMovieAdapter.addFooter();
-      /*  final Runnable r = new Runnable() {
-            public void run() {
-                mMovieAdapter.notifyItemInserted(mCursor.getCount() - 1);
-            }
-        };
-
-        handler.post(r);*/
     }
 
     public void refresh() {
@@ -108,14 +86,14 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
                 getLoaderManager().restartLoader(LOADER_ID, null, this);
                 break;
 
-            case "popularity.desc":
+            case "popular":
                 mUri = MovieContract.PopularMovieEntry.BASE_URI;
                 mProjection = MovieProjection.Projection.MOVIE_LIST_PROJECTION;
                 isMovieFavouriteSelected = false;
                 getLoaderManager().restartLoader(LOADER_ID, null, this);
                 break;
 
-            case "vote_average.desc":
+            case "top_rated":
                 mUri = MovieContract.MovieEntry.BASE_URI;
                 mProjection = MovieProjection.Projection.POPULAR_MOVIE_LIST_PROJECTION;
                 getLoaderManager().restartLoader(LOADER_ID, null, this);
@@ -147,36 +125,25 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
         mRecyclerView.setAdapter(mMovieAdapter);
         mRecyclerView.setHasFixedSize(true);
 
-
-        isLoadFirstTime = true;
-        scrollListener = new EndlessRecyclerViewScrollListener(layoutManager) {
+        mSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onLoadMore(final int page, int totalItemsCount, RecyclerView view) {
-                isLoadFirstTime = false;
-                mSwipeToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            public void onRefresh() {
+                //refresh();
+                mSwipeToRefresh.setRefreshing(true);
+                Handler handler = new Handler();
+                refresh();
+                handler.postDelayed(new Runnable() {
                     @Override
-                    public void onRefresh() {
-                        //refresh();
-                        mSwipeToRefresh.setRefreshing(true);
-                        Handler handler = new Handler();
-                        handler.postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                loadNextPage(page);
-                                mSwipeToRefresh.setRefreshing(false);
-                            }
-                        }, 3000);
+                    public void run() {
+                        mSwipeToRefresh.setRefreshing(false);
                     }
-                });
+                }, 3000);
             }
-        };
-
-        mRecyclerView.addOnScrollListener(scrollListener);
-        // scrollListener.resetState();
+        });
         return rootView;
     }
 
-    public void loadNextPage(int page) {
+   /* public void loadNextPage(int page) {
         // mMovieAdapter.removeFooter();
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         sort_by = prefs.getString(
@@ -208,12 +175,34 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
         getLoaderManager().restartLoader(LOADER_ID, null, this);
         // mMovieAdapter.addFooter();
     }
+*/
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onSortByChange(String sort_by){
 
-        scrollListener.resetState();
+        FetchMovieTask movieTask = new FetchMovieTask(getActivity());
+        movieTask.execute(sort_by, "1");
+
+        switch (sort_by) {
+            case "favourite":
+                mUri = MovieContract.FavouriteMovieEntry.BASE_URI;
+                mProjection = MovieProjection.Projection.FAVOURITE_MOVIE_LIST_PROJECTION;
+                isMovieFavouriteSelected = true;
+                getLoaderManager().restartLoader(LOADER_ID, null, this);
+                break;
+
+            case "popular":
+                mUri = MovieContract.PopularMovieEntry.BASE_URI;
+                mProjection = MovieProjection.Projection.MOVIE_LIST_PROJECTION;
+                isMovieFavouriteSelected = false;
+                getLoaderManager().restartLoader(LOADER_ID, null, this);
+                break;
+
+            case "top_rated":
+                mUri = MovieContract.MovieEntry.BASE_URI;
+                mProjection = MovieProjection.Projection.POPULAR_MOVIE_LIST_PROJECTION;
+                getLoaderManager().restartLoader(LOADER_ID, null, this);
+                break;
+        }
     }
 
     @Override
@@ -232,18 +221,18 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
                     detailUri = MovieContract.FavouriteMovieEntry.buildFavouriteMovieDetailUri(movieId);
                     intent.setData(detailUri);
                     break;
-                case "popularity.desc":
+                case "popular":
                     detailUri = MovieContract.PopularMovieEntry.buildPopularMovieDetailUri(movieId);
                     intent.setData(detailUri);
                     break;
 
-                case "vote_average.desc":
+                case "top_rated":
                     detailUri = MovieContract.MovieEntry.buildMovieDetailUri(movieId);
                     intent.setData(detailUri);
                     break;
             }
         } else {
-            sort_by = "popularity.desc";
+            sort_by = "popular";
             detailUri = MovieContract.PopularMovieEntry.buildPopularMovieDetailUri(movieId);
             intent.setData(detailUri);
         }
@@ -269,16 +258,9 @@ public class MovieFragment extends Fragment implements MovieAdapter.OnItemSelect
         if (data != null) {
             mCursor = data;
             Log.e("MovieDataFragment ", "Cursor data Count" + data.getCount());
-            if (isLoadFirstTime) {
-                mMovieAdapter.swapCursor(mCursor);
-                if (mGridState != null) {
-                    layoutManager.onRestoreInstanceState(mGridState);
-                }
-            } else {
-                mMovieAdapter.loadMore(mCursor, mRecyclerView);
-                if (mGridState != null) {
-                    layoutManager.onRestoreInstanceState(mGridState);
-                }
+            mMovieAdapter.swapCursor(mCursor);
+            if (mGridState != null) {
+                layoutManager.onRestoreInstanceState(mGridState);
             }
         }
     }

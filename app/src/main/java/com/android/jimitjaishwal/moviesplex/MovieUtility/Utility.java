@@ -24,7 +24,7 @@ public class Utility {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         float dpWidth = displayMetrics.widthPixels / displayMetrics.density;
         int noOfColumns = (int) (dpWidth / 180);
-        return noOfColumns;
+        return noOfColumns >= 2 ? noOfColumns : 2;
     }
 
     public static String humanReadableDate(String date) {

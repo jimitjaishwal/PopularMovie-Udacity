@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Movie Plex.iml" filepath="$PROJECT_DIR$/Movie Plex.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jimitjaishwal-PopularMovie-Udacity-6610630.iml" filepath="$PROJECT_DIR$/jimitjaishwal-PopularMovie-Udacity-6610630.iml" />
     </modules>
   </component>
 </project>

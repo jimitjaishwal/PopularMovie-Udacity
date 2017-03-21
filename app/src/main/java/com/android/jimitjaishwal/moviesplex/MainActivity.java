@@ -1,7 +1,9 @@
 package com.android.jimitjaishwal.moviesplex;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Spannable;
@@ -16,7 +18,9 @@ import com.android.jimitjaishwal.moviesplex.data.MovieContract;
 public class MainActivity extends AppCompatActivity {
 
     private TextView appName;
-    // final App Repo
+    private String sort_by;
+
+    // final App Ropo fo Nanodegree
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +44,24 @@ public class MainActivity extends AppCompatActivity {
         super.finish();
         this.getContentResolver().delete(MovieContract.PopularMovieEntry.BASE_URI, null, null);
         this.getContentResolver().delete(MovieContract.MovieEntry.BASE_URI, null, null);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
+        String sortBy = prefs.getString(
+                this.getString(R.string.pref_movie_sort_by_key),
+                this.getString(R.string.pref_movie_sort_by_popular_key));
+
+        if (sortBy != null && !sortBy.equals(sort_by)) {
+            MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.movie_fragment);
+
+            if (fragment != null) {
+                fragment.onSortByChange(sortBy);
+            }
+            sort_by = sortBy;
+        }
     }
 
     @Override

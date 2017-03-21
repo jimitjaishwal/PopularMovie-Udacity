@@ -14,7 +14,7 @@ public class MovieResponse {
     @SerializedName("page")
     private Long mPage;
     @SerializedName("results")
-    private ArrayList<MovieModel> mMovieModels;
+    private ArrayList<MovieModel> mMovieModels = new ArrayList<>();
     @SerializedName("total_pages")
     private Long mTotalPages;
     @SerializedName("total_results")
